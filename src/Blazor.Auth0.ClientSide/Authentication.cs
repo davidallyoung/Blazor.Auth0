@@ -8,6 +8,7 @@ namespace Blazor.Auth0
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
+    using System.Security.Authentication;
     using System.Security.Cryptography;
     using System.Text;
     using System.Text.Json;
@@ -49,7 +50,7 @@ namespace Blazor.Auth0
             query = query.Add("state", buildAuthorizedUrlOptions.State);
             query = query.Add("nonce", buildAuthorizedUrlOptions.Nonce);
             query = query.Add("client_id", buildAuthorizedUrlOptions.ClientID);
-            query = query.Add("scope", buildAuthorizedUrlOptions.Scope);            
+            query = query.Add("scope", buildAuthorizedUrlOptions.Scope);
 
             if (buildAuthorizedUrlOptions.CodeChallengeMethod != CodeChallengeMethods.None)
             {
@@ -252,7 +253,7 @@ namespace Blazor.Auth0
 
                 error += !string.IsNullOrEmpty(result.State) ? $"; state: {result.State}" : string.Empty;
 
-                throw new Exception(error);
+                throw new AuthenticationException(error);
             }
 
             if (
@@ -266,12 +267,12 @@ namespace Blazor.Auth0
 
             if ((parseHashOptions.ResponseType == ResponseTypes.Token || parseHashOptions.ResponseType == ResponseTypes.TokenAndIdToken) && string.IsNullOrEmpty(result.AccessToken))
             {
-                throw new Exception(Resources.InvalidHashMissingAccessTokenError);
+                throw new AuthenticationException(Resources.InvalidHashMissingAccessTokenError);
             }
 
             if ((parseHashOptions.ResponseType == ResponseTypes.Token || parseHashOptions.ResponseType == ResponseTypes.TokenAndIdToken) && string.IsNullOrEmpty(result.IdToken))
             {
-                throw new Exception(Resources.InvalidHashMissingIdTokenError);
+                throw new AuthenticationException(Resources.InvalidHashMissingIdTokenError);
             }
 
             return result;
@@ -333,7 +334,7 @@ namespace Blazor.Auth0
 
             if (!string.IsNullOrEmpty(errorDescription))
             {
-                throw new ApplicationException(errorDescription);
+                throw new AuthenticationException(errorDescription);
             }
         }
 

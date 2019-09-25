@@ -1,8 +1,6 @@
 ﻿'use strict';
 
-var interopElementName = '___blazor_auth0';
-
-window[interopElementName] = {
+window.___blazor_auth0 = {
     logOut: (src) => {
         'use strict';
         return new Promise(resolve => {

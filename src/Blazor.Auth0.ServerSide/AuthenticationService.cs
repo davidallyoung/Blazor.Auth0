@@ -262,8 +262,8 @@ namespace Blazor.Auth0
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
-                    ((IDisposable)this.logOutTimer)?.Dispose();
+                    // TODO: dispose managed state (managed objects).                    
+                    this.logOutTimer?.Dispose();
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.

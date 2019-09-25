@@ -188,11 +188,9 @@ namespace Blazor.Auth0
         {
             string result = string.Empty;
 
-            switch (codeChallengeMethod)
+            if (codeChallengeMethod == CodeChallengeMethods.S256)
             {
-                case CodeChallengeMethods.S256:
                 result = "S256";
-                break;
             }
 
             return result;

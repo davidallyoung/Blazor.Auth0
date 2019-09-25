@@ -8,6 +8,7 @@ namespace Blazor.Auth0
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
+    using System.Security.Authentication;
     using System.Security.Claims;
     using System.Security.Principal;
     using System.Text.Json;
@@ -77,7 +78,7 @@ namespace Blazor.Auth0
         /// <param name="navigationManager">A <see cref="NavigationManager"/> param.</param>
         /// <param name="options">A <see cref="ClientOptions"/> param.</param>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1201:Elements should appear in the correct order", Justification = "I like this best ;)")]
-        public AuthenticationService(ILogger<AuthenticationService> logger,  HttpClient httpClient, IJSRuntime jsRuntime, NavigationManager navigationManager, ClientOptions options)
+        public AuthenticationService(ILogger<AuthenticationService> logger, HttpClient httpClient, IJSRuntime jsRuntime, NavigationManager navigationManager, ClientOptions options)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
@@ -139,110 +140,109 @@ namespace Blazor.Auth0
             {
                 case SessionStates.Active:
 
-                identity = new GenericIdentity(this.User?.Name ?? string.Empty, "JWT");
+                    identity = new GenericIdentity(this.User?.Name ?? string.Empty, "JWT");
 
-                if (!string.IsNullOrEmpty(this.User.Sub?.Trim()))
-                {
-                    identity.AddClaim(new Claim("sub", this.User.Sub));
-                }
+                    if (!string.IsNullOrEmpty(this.User.Sub?.Trim()))
+                    {
+                        identity.AddClaim(new Claim("sub", this.User.Sub));
+                    }
 
-                if (!string.IsNullOrEmpty(this.User.Name?.Trim()))
-                {
-                    identity.AddClaim(new Claim(ClaimTypes.Name, this.User.Name));
-                }
+                    if (!string.IsNullOrEmpty(this.User.Name?.Trim()))
+                    {
+                        identity.AddClaim(new Claim(ClaimTypes.Name, this.User.Name));
+                    }
 
-                if (!string.IsNullOrEmpty(this.User.GivenName?.Trim()))
-                {
-                    identity.AddClaim(new Claim("given_name", this.User.GivenName));
-                }
+                    if (!string.IsNullOrEmpty(this.User.GivenName?.Trim()))
+                    {
+                        identity.AddClaim(new Claim("given_name", this.User.GivenName));
+                    }
 
-                if (!string.IsNullOrEmpty(this.User.FamilyName?.Trim()))
-                {
-                    identity.AddClaim(new Claim("family_name", this.User.FamilyName));
-                }
+                    if (!string.IsNullOrEmpty(this.User.FamilyName?.Trim()))
+                    {
+                        identity.AddClaim(new Claim("family_name", this.User.FamilyName));
+                    }
 
-                if (!string.IsNullOrEmpty(this.User.MiddleName?.Trim()))
-                {
-                    identity.AddClaim(new Claim("middle_name", this.User.MiddleName));
-                }
+                    if (!string.IsNullOrEmpty(this.User.MiddleName?.Trim()))
+                    {
+                        identity.AddClaim(new Claim("middle_name", this.User.MiddleName));
+                    }
 
-                if (!string.IsNullOrEmpty(this.User.Nickname?.Trim()))
-                {
-                    identity.AddClaim(new Claim("nickname", this.User.Nickname));
-                }
+                    if (!string.IsNullOrEmpty(this.User.Nickname?.Trim()))
+                    {
+                        identity.AddClaim(new Claim("nickname", this.User.Nickname));
+                    }
 
-                if (!string.IsNullOrEmpty(this.User.PreferredUsername?.Trim()))
-                {
-                    identity.AddClaim(new Claim("preferred_username", this.User.PreferredUsername));
-                }
+                    if (!string.IsNullOrEmpty(this.User.PreferredUsername?.Trim()))
+                    {
+                        identity.AddClaim(new Claim("preferred_username", this.User.PreferredUsername));
+                    }
 
-                if (!string.IsNullOrEmpty(this.User.Profile?.Trim()))
-                {
-                    identity.AddClaim(new Claim("profile", this.User.Profile));
-                }
+                    if (!string.IsNullOrEmpty(this.User.Profile?.Trim()))
+                    {
+                        identity.AddClaim(new Claim("profile", this.User.Profile));
+                    }
 
-                if (!string.IsNullOrEmpty(this.User.Picture?.Trim()))
-                {
-                    identity.AddClaim(new Claim("picture", this.User.Picture));
-                }
+                    if (!string.IsNullOrEmpty(this.User.Picture?.Trim()))
+                    {
+                        identity.AddClaim(new Claim("picture", this.User.Picture));
+                    }
 
-                if (!string.IsNullOrEmpty(this.User.Website?.Trim()))
-                {
-                    identity.AddClaim(new Claim("website", this.User.Website));
-                }
+                    if (!string.IsNullOrEmpty(this.User.Website?.Trim()))
+                    {
+                        identity.AddClaim(new Claim("website", this.User.Website));
+                    }
 
-                if (!string.IsNullOrEmpty(this.User.Email?.Trim()))
-                {
-                    identity.AddClaim(new Claim("email", this.User.Email));
-                }
+                    if (!string.IsNullOrEmpty(this.User.Email?.Trim()))
+                    {
+                        identity.AddClaim(new Claim("email", this.User.Email));
+                    }
 
-                identity.AddClaim(new Claim("email_verified", this.User.EmailVerified.ToString()));
+                    identity.AddClaim(new Claim("email_verified", this.User.EmailVerified.ToString()));
 
-                if (!string.IsNullOrEmpty(this.User.Gender?.Trim()))
-                {
-                    identity.AddClaim(new Claim("gender", this.User.Gender));
-                }
+                    if (!string.IsNullOrEmpty(this.User.Gender?.Trim()))
+                    {
+                        identity.AddClaim(new Claim("gender", this.User.Gender));
+                    }
 
-                if (!string.IsNullOrEmpty(this.User.Birthdate?.Trim()))
-                {
-                    identity.AddClaim(new Claim("birthdate", this.User.Birthdate));
-                }
+                    if (!string.IsNullOrEmpty(this.User.Birthdate?.Trim()))
+                    {
+                        identity.AddClaim(new Claim("birthdate", this.User.Birthdate));
+                    }
 
-                if (!string.IsNullOrEmpty(this.User.Zoneinfo?.Trim()))
-                {
-                    identity.AddClaim(new Claim("zoneinfo", this.User.Zoneinfo));
-                }
+                    if (!string.IsNullOrEmpty(this.User.Zoneinfo?.Trim()))
+                    {
+                        identity.AddClaim(new Claim("zoneinfo", this.User.Zoneinfo));
+                    }
 
-                if (!string.IsNullOrEmpty(this.User.Locale?.Trim()))
-                {
-                    identity.AddClaim(new Claim("locale", this.User.Locale));
-                }
+                    if (!string.IsNullOrEmpty(this.User.Locale?.Trim()))
+                    {
+                        identity.AddClaim(new Claim("locale", this.User.Locale));
+                    }
 
-                if (!string.IsNullOrEmpty(this.User.PhoneNumber?.Trim()))
-                {
-                    identity.AddClaim(new Claim("phone_number", this.User.PhoneNumber));
-                }
+                    if (!string.IsNullOrEmpty(this.User.PhoneNumber?.Trim()))
+                    {
+                        identity.AddClaim(new Claim("phone_number", this.User.PhoneNumber));
+                    }
 
-                identity.AddClaim(new Claim("phone_number_verified", this.User.PhoneNumberVerified.ToString()));
+                    identity.AddClaim(new Claim("phone_number_verified", this.User.PhoneNumberVerified.ToString()));
 
-                if (!string.IsNullOrEmpty(this.User.Address?.Trim()))
-                {
-                    identity.AddClaim(new Claim("address", this.User.Address));
-                }
+                    if (!string.IsNullOrEmpty(this.User.Address?.Trim()))
+                    {
+                        identity.AddClaim(new Claim("address", this.User.Address));
+                    }
 
-                identity.AddClaim(new Claim("updated_at", this.User.UpdatedAt.ToString()));
+                    identity.AddClaim(new Claim("updated_at", this.User.UpdatedAt.ToString()));
 
-                identity.AddClaims(this.User.CustomClaims.Select(customClaim => new Claim(customClaim.Key, customClaim.Value.GetRawText(), customClaim.Value.ValueKind.ToString())));
+                    identity.AddClaims(this.User.CustomClaims.Select(customClaim => new Claim(customClaim.Key, customClaim.Value.GetRawText(), customClaim.Value.ValueKind.ToString())));
 
-                identity.AddClaims(this.User.Permissions.Select(permission => new Claim($"{permission}", "true", "permissions")));
+                    identity.AddClaims(this.User.Permissions.Select(permission => new Claim($"{permission}", "true", "permissions")));
 
-                break;
-                case SessionStates.Undefined:
-                case SessionStates.Inactive:
+                    break;
+                default:
 
-                identity = new GenericIdentity(string.Empty, "JWT");
+                    identity = new GenericIdentity(string.Empty, "JWT");
 
-                break;
+                    break;
             }
 
             return Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity)));
@@ -319,7 +319,7 @@ namespace Blazor.Auth0
 
                 this.ScheduleLogOut();
             }
-            catch (ApplicationException ex)
+            catch (AuthenticationException ex)
             {
                 await this.OnLoginRequestValidationError(authorizationResponse.Error, ex.Message).ConfigureAwait(false);
             }
@@ -401,12 +401,12 @@ namespace Blazor.Auth0
 
                 if (nonceIsValid.HasValue && !nonceIsValid.Value)
                 {
-                    throw new ApplicationException(Resources.InvalidNonceError);
+                    throw new AuthenticationException(Resources.InvalidNonceError);
                 }
 
-                if (string.IsNullOrEmpty(idTokenInfo.AtHash))
+                if (string.IsNullOrEmpty(idTokenInfo?.AtHash))
                 {
-                    Console.WriteLine(Resources.NotAltChashWarning);
+                    this.logger.LogWarning(Resources.NotAltChashWarning);
                 }
                 else
                 {
@@ -414,7 +414,7 @@ namespace Blazor.Auth0
 
                     if (!atHashIsValid)
                     {
-                        throw new ApplicationException(Resources.InvalidAccessTokenHashError);
+                        throw new AuthenticationException(Resources.InvalidAccessTokenHashError);
                     }
                 }
             }
@@ -558,7 +558,8 @@ namespace Blazor.Auth0
 
                     this.dotnetObjectRef.Dispose();
                     this.httpClient.Dispose();
-                    ((IDisposable)this.logOutTimer).Dispose();
+                    this.logOutTimer?.Dispose();
+
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
