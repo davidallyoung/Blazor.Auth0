@@ -351,7 +351,7 @@ namespace Blazor.Auth0
                 return await this.GetSessionInfoAsync(authorizationResponse.Code).ConfigureAwait(false);
             }
 
-            return new SessionInfo()
+            return new SessionInfo
             {
                 AccessToken = authorizationResponse.AccessToken,
                 ExpiresIn = authorizationResponse.ExpiresIn,
@@ -410,7 +410,7 @@ namespace Blazor.Auth0
                 }
                 else
                 {
-                    bool atHashIsValid = Authentication.ValidateAccessTokenHash(idTokenInfo.AtHash, accessToken);
+                    bool atHashIsValid = Authentication.ValidateAccessTokenHash(idTokenInfo?.AtHash, accessToken);
 
                     if (!atHashIsValid)
                     {
@@ -442,7 +442,7 @@ namespace Blazor.Auth0
             {
                 this.ClearSession();
 
-                Console.WriteLine("Login Error: " + validationMessage);
+                this.logger.LogError("Login Error: " + validationMessage);
 
                 if (error.ToLower() == "login_required" && this.clientOptions.RequireAuthenticatedUser)
                 {
@@ -555,28 +555,16 @@ namespace Blazor.Auth0
                 if (disposing)
                 {
                     // TODO: dispose managed state (managed objects).
-
                     this.dotnetObjectRef.Dispose();
                     this.httpClient.Dispose();
                     this.logOutTimer?.Dispose();
-
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
                 // TODO: set large fields to null.
-
                 this.disposedValue = true;
             }
         }
-
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~AuthenticationService()
-        // {
-        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        //   Dispose(false);
-        // }
-
-        // This code added to correctly implement the disposable pattern.
 
         /// <inheritdoc/>
         public void Dispose()

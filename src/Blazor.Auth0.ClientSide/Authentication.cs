@@ -77,7 +77,7 @@ namespace Blazor.Auth0
 
             query = query.Add("redirect_uri", buildAuthorizedUrlOptions.RedirectUri);
 
-            UriBuilder uriBuilder = new UriBuilder()
+            UriBuilder uriBuilder = new UriBuilder
             {
                 Scheme = "https",
                 Host = buildAuthorizedUrlOptions.Domain,
@@ -354,7 +354,7 @@ namespace Blazor.Auth0
                 {
                     byte[] hashValue = mySHA256.ComputeHash(Encoding.ASCII.GetBytes(accessToken));
                     string base64Encoded = Convert.ToBase64String(hashValue.Take(16).ToArray());
-                    accessTokenHash = Convert.ToBase64String(hashValue.Take(16).ToArray()).TrimEnd('=').Replace('+', '-').Replace('/', '_');
+                    accessTokenHash = base64Encoded.TrimEnd('=').Replace('+', '-').Replace('/', '_');
                 }
 
                 return accessTokenHash.Equals(atHash);
